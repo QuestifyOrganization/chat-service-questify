@@ -1,10 +1,11 @@
 version: '3'
 
 services: 
-  questify-example-service:
+  questify-conversation-service:
     build:
+      context: .
       dockerfile: dockerfile
-    container_name: questify-example-service
+    container_name: questify-conversation-service
     ports: 
       - "${PORT}:${PORT}"
     volumes:
