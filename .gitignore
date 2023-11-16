@@ -1,0 +1,10 @@
+# Visual Studio Code folder
+.vscode/
+
+# Node.js modules folder
+node_modules/
+
+# Environment configurations
+.env
+.env.local
+.env.*.local

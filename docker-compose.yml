@@ -1,0 +1,24 @@
+version: '3'
+
+services: 
+  questify-example-service:
+    build:
+      dockerfile: dockerfile
+    container_name: questify-example-service
+    ports: 
+      - "${PORT}:${PORT}"
+    volumes:
+      - node_modules:/usr/app/node_modules
+      - ./app:/usr/app
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - questify-network
+
+volumes:
+  node_modules:
+
+networks:
+  questify-network:
+    external: true
