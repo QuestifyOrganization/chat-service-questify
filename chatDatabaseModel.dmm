@@ -1,0 +1,951 @@
+{
+	"tables": {
+		"13f66287-dfae-405d-abac-7facfccabd6f": {
+			"id": "13f66287-dfae-405d-abac-7facfccabd6f",
+			"visible": true,
+			"name": "ChatUser",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "98452a33-c9a0-48e2-b671-9a60e4260027",
+					"name": "id",
+					"datatype": "integer",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "9c38b4ea-7f5b-4e49-99ad-1d0179241e33",
+					"name": "name",
+					"datatype": "varbit",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "0895846a-d2be-4dc7-8ccb-0242fd303245",
+					"name": "userId",
+					"datatype": "integer",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				}
+			],
+			"relations": [
+				"336a7e66-0090-4623-930d-9ea89ed2c52a",
+				"08c7b4fd-130e-4d97-8e4d-437e2332e2ae",
+				"302bc18c-fca0-488e-a38a-9ad6c5667b49"
+			],
+			"lines": [
+				"7fd0099f-24e1-4e4e-9add-462f01510f06"
+			],
+			"keys": [
+				{
+					"id": "975dc027-b68f-4a01-9cc1-75e0356281d4",
+					"name": "ChatUser_pkey",
+					"isPk": true,
+					"cols": [
+						{
+							"id": "98a78e8e-86b6-45d3-94f1-398010aa95e9",
+							"colid": "98452a33-c9a0-48e2-b671-9a60e4260027"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"objectType": "table",
+			"pg": {
+				"rowsecurity": false,
+				"schema": "",
+				"tablespace": "",
+				"inherits": "",
+				"storageParameters": "",
+				"partition": "",
+				"partitionNames": []
+			}
+		},
+		"1fedea49-aef2-4e81-b4ee-fad4f2adc8ca": {
+			"id": "1fedea49-aef2-4e81-b4ee-fad4f2adc8ca",
+			"visible": true,
+			"name": "Message",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "589de35c-6649-4f7e-8a54-853f6624edb3",
+					"name": "id",
+					"datatype": "integer",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "2b26e90d-1a30-4c59-84cd-ce604bfb4d63",
+					"name": "messageText",
+					"datatype": "integer",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "b864680c-f54f-49ac-816d-3b44dba780ee",
+					"name": "sendDate",
+					"datatype": "time with time zone",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "4aeb2784-71af-489e-93cd-35cab9acd477",
+					"name": "recipientContentType",
+					"datatype": "integer",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "2755d563-3511-45da-87c0-fdff0aa0df0b",
+					"name": "recipientContentId",
+					"datatype": "integer",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "afdfa1fb-5e1e-424c-8646-90fe5667fba7",
+					"name": "senderId",
+					"datatype": "integer",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"336a7e66-0090-4623-930d-9ea89ed2c52a",
+				"d82eabfb-1c82-40da-8000-b1ca24892be4"
+			],
+			"lines": [
+				"7fd0099f-24e1-4e4e-9add-462f01510f06",
+				"18525fac-99e1-42b7-82a3-ac5c0611ed3d"
+			],
+			"keys": [
+				{
+					"id": "c270cb49-0cde-4e09-b04b-72d0f771c663",
+					"name": "Message_pkey",
+					"isPk": true,
+					"cols": [
+						{
+							"id": "5a006fad-b071-4e1d-81c0-31f2096755bc",
+							"colid": "589de35c-6649-4f7e-8a54-853f6624edb3"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"objectType": "table",
+			"pg": {
+				"rowsecurity": false,
+				"schema": "",
+				"tablespace": "",
+				"inherits": "",
+				"storageParameters": "",
+				"partition": "",
+				"partitionNames": []
+			}
+		},
+		"783e26e5-7fbe-4aee-a19a-666ef230f7b1": {
+			"id": "783e26e5-7fbe-4aee-a19a-666ef230f7b1",
+			"visible": true,
+			"name": "ChatGroup",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "a2d098fe-16ce-4db2-9e79-6cf9d181d36b",
+					"name": "id",
+					"datatype": "integer",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "a8c88b2f-3741-40c3-9fd6-3743c43ab216",
+					"name": "name",
+					"datatype": "varchar",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "f1b95041-dd48-48d6-b5fd-435a708ace09",
+					"name": "description",
+					"datatype": "integer",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "26e2cb7f-667c-43fd-b12e-2ccbfee2062d",
+					"name": "createdAt",
+					"datatype": "time with time zone",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				}
+			],
+			"relations": [
+				"73c423fb-bdf2-4bad-a784-8916951b0597"
+			],
+			"lines": [
+				"18525fac-99e1-42b7-82a3-ac5c0611ed3d"
+			],
+			"keys": [
+				{
+					"id": "33414381-afec-43bf-b8bb-aec453eb86a4",
+					"name": "ChatGroup_pkey",
+					"isPk": true,
+					"cols": [
+						{
+							"id": "a839438f-5ad2-4681-b081-3465e1c677d4",
+							"colid": "a2d098fe-16ce-4db2-9e79-6cf9d181d36b"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"objectType": "table",
+			"pg": {
+				"rowsecurity": false,
+				"schema": "",
+				"tablespace": "",
+				"inherits": "",
+				"storageParameters": "",
+				"partition": "",
+				"partitionNames": []
+			}
+		},
+		"0168f1e7-0590-4fb5-927a-4ca50cfb5027": {
+			"id": "0168f1e7-0590-4fb5-927a-4ca50cfb5027",
+			"visible": true,
+			"name": "MessageViewer",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "9cad5404-4301-4d89-87fd-6ffb7573f099",
+					"name": "id",
+					"datatype": "integer",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "ada56db1-fc1a-435e-9934-86cc5a974560",
+					"name": "chatUserId",
+					"datatype": "integer",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "03f1eedf-f0e5-4b95-80be-5fb587f6a7f9",
+					"name": "messageId",
+					"datatype": "integer",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"08c7b4fd-130e-4d97-8e4d-437e2332e2ae",
+				"d82eabfb-1c82-40da-8000-b1ca24892be4"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "14c0e443-2de1-4642-ae4c-22f5e6d12448",
+					"name": "MessageViewer_pkey",
+					"isPk": true,
+					"cols": [
+						{
+							"id": "c650cfb8-0235-4f2e-a927-4fa83f70ed91",
+							"colid": "9cad5404-4301-4d89-87fd-6ffb7573f099"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"objectType": "table",
+			"pg": {
+				"rowsecurity": false,
+				"schema": "",
+				"tablespace": "",
+				"inherits": "",
+				"storageParameters": "",
+				"partition": "",
+				"partitionNames": []
+			}
+		},
+		"3f6efafa-214b-4c67-b2ee-49cf1810e2c7": {
+			"id": "3f6efafa-214b-4c67-b2ee-49cf1810e2c7",
+			"visible": true,
+			"name": "ChatGroupMembership",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "bb3871f8-8ba3-4429-9cd6-424ddf2efe63",
+					"name": "id",
+					"datatype": "integer",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "d0b399ee-1dad-40b5-afcb-1578a61d6307",
+					"name": "entryDate",
+					"datatype": "time with time zone",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
+					"id": "88c1ba52-13b4-4626-bcc0-f12b189f8150",
+					"name": "chatUserId",
+					"datatype": "integer",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				},
+				{
+					"id": "63582e96-91b0-4da6-b39d-f3314e5a6e6b",
+					"name": "chatGroupId",
+					"datatype": "integer",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"302bc18c-fca0-488e-a38a-9ad6c5667b49",
+				"73c423fb-bdf2-4bad-a784-8916951b0597"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "9259a292-059c-4a2d-97fc-12c3fc046e5c",
+					"name": "ChatGroupMembership_pkey",
+					"isPk": true,
+					"cols": [
+						{
+							"id": "a891c38d-bbe5-47d2-bbb0-55fa37e285ce",
+							"colid": "bb3871f8-8ba3-4429-9cd6-424ddf2efe63"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"objectType": "table",
+			"pg": {
+				"rowsecurity": false,
+				"schema": "",
+				"tablespace": "",
+				"inherits": "",
+				"storageParameters": "",
+				"partition": "",
+				"partitionNames": []
+			}
+		}
+	},
+	"relations": {
+		"336a7e66-0090-4623-930d-9ea89ed2c52a": {
+			"id": "336a7e66-0090-4623-930d-9ea89ed2c52a",
+			"visible": true,
+			"name": "Message_senderId_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "975dc027-b68f-4a01-9cc1-75e0356281d4",
+			"parent": "13f66287-dfae-405d-abac-7facfccabd6f",
+			"child": "1fedea49-aef2-4e81-b4ee-fad4f2adc8ca",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "78e8c0b8-dd01-43cc-b00d-535430a97043",
+					"parentcol": "98452a33-c9a0-48e2-b671-9a60e4260027",
+					"childcol": "afdfa1fb-5e1e-424c-8646-90fe5667fba7"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"08c7b4fd-130e-4d97-8e4d-437e2332e2ae": {
+			"id": "08c7b4fd-130e-4d97-8e4d-437e2332e2ae",
+			"visible": true,
+			"name": "MessageViewer_chatUserId_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "975dc027-b68f-4a01-9cc1-75e0356281d4",
+			"parent": "13f66287-dfae-405d-abac-7facfccabd6f",
+			"child": "0168f1e7-0590-4fb5-927a-4ca50cfb5027",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "cc03b6f3-c0ce-492b-9d99-91ac84e4d025",
+					"parentcol": "98452a33-c9a0-48e2-b671-9a60e4260027",
+					"childcol": "ada56db1-fc1a-435e-9934-86cc5a974560"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"d82eabfb-1c82-40da-8000-b1ca24892be4": {
+			"id": "d82eabfb-1c82-40da-8000-b1ca24892be4",
+			"visible": true,
+			"name": "MessageViewer_messageId_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "c270cb49-0cde-4e09-b04b-72d0f771c663",
+			"parent": "1fedea49-aef2-4e81-b4ee-fad4f2adc8ca",
+			"child": "0168f1e7-0590-4fb5-927a-4ca50cfb5027",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "a859b60d-4c0f-4d4f-a97f-3e339badf7fa",
+					"parentcol": "589de35c-6649-4f7e-8a54-853f6624edb3",
+					"childcol": "03f1eedf-f0e5-4b95-80be-5fb587f6a7f9"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"302bc18c-fca0-488e-a38a-9ad6c5667b49": {
+			"id": "302bc18c-fca0-488e-a38a-9ad6c5667b49",
+			"visible": true,
+			"name": "ChatGroupMembership_chatUserId_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "975dc027-b68f-4a01-9cc1-75e0356281d4",
+			"parent": "13f66287-dfae-405d-abac-7facfccabd6f",
+			"child": "3f6efafa-214b-4c67-b2ee-49cf1810e2c7",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "4f1fc4f4-ecf3-4dc9-81e4-f2dc96ea0525",
+					"parentcol": "98452a33-c9a0-48e2-b671-9a60e4260027",
+					"childcol": "88c1ba52-13b4-4626-bcc0-f12b189f8150"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		},
+		"73c423fb-bdf2-4bad-a784-8916951b0597": {
+			"id": "73c423fb-bdf2-4bad-a784-8916951b0597",
+			"visible": true,
+			"name": "ChatGroupMembership_chatGroupId_fkey",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "33414381-afec-43bf-b8bb-aec453eb86a4",
+			"parent": "783e26e5-7fbe-4aee-a19a-666ef230f7b1",
+			"child": "3f6efafa-214b-4c67-b2ee-49cf1810e2c7",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "ddc8795c-18c9-484f-b680-09f02a157fe7",
+					"parentcol": "a2d098fe-16ce-4db2-9e79-6cf9d181d36b",
+					"childcol": "63582e96-91b0-4da6-b39d-f3314e5a6e6b"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": ""
+		}
+	},
+	"notes": {},
+	"lines": {
+		"7fd0099f-24e1-4e4e-9add-462f01510f06": {
+			"id": "7fd0099f-24e1-4e4e-9add-462f01510f06",
+			"visible": true,
+			"name": "Message-ChatUser",
+			"desc": "",
+			"style": "solid",
+			"parent": "1fedea49-aef2-4e81-b4ee-fad4f2adc8ca",
+			"child": "13f66287-dfae-405d-abac-7facfccabd6f",
+			"lineColor": "transparent",
+			"markerStart": "none",
+			"markerEnd": "arrowEnd",
+			"linegraphics": "basic",
+			"generate": true,
+			"code": ""
+		},
+		"18525fac-99e1-42b7-82a3-ac5c0611ed3d": {
+			"id": "18525fac-99e1-42b7-82a3-ac5c0611ed3d",
+			"visible": true,
+			"name": "Message-ChatGroup",
+			"desc": "",
+			"style": "solid",
+			"parent": "1fedea49-aef2-4e81-b4ee-fad4f2adc8ca",
+			"child": "783e26e5-7fbe-4aee-a19a-666ef230f7b1",
+			"lineColor": "transparent",
+			"markerStart": "none",
+			"markerEnd": "arrowEnd",
+			"linegraphics": "basic",
+			"generate": true,
+			"code": ""
+		}
+	},
+	"model": {
+		"name": "ChatService",
+		"id": "ab47e9ff-687c-4ca1-a42a-1000afe2e9da",
+		"activeDiagram": "140448c4-1025-4c15-bcdc-1043a52a64eb",
+		"desc": "MongoDB",
+		"path": "",
+		"type": "PG",
+		"version": 1,
+		"parentTableInFkCols": true,
+		"caseConvention": "under",
+		"replaceSpace": "_",
+		"color": "transparent",
+		"sideSelections": true,
+		"isDirty": true,
+		"storedin": {
+			"major": 7,
+			"minor": 3,
+			"extra": 0
+		},
+		"laststoredin": {
+			"major": 7,
+			"minor": 3,
+			"extra": 0
+		},
+		"writeFileParam": false,
+		"authorName": "",
+		"companyDetails": "",
+		"companyUrl": "",
+		"def_coltopk": true,
+		"pg": {
+			"schema": ""
+		},
+		"sqlSettings": {
+			"wrapLines": true,
+			"wrapOffset": 80,
+			"indent": true,
+			"indentationString": "spaces",
+			"indentationSize": 2,
+			"limitItemsOnLine": true,
+			"maxListItemsOnLine": 3,
+			"statementDelimiter": ";",
+			"routineDelimiter": ";",
+			"keywordCase": "upper",
+			"identiferCase": "original",
+			"includeSchema": "always",
+			"quotation": "if_needed",
+			"includeGeneratedNames": "always"
+		},
+		"nameAutoGeneration": {
+			"keys": true,
+			"indexes": true,
+			"relations": true
+		},
+		"lastSaved": "10/25/2023"
+	},
+	"otherObjects": {},
+	"diagrams": {
+		"140448c4-1025-4c15-bcdc-1043a52a64eb": {
+			"name": "Main Diagram",
+			"description": "",
+			"id": "140448c4-1025-4c15-bcdc-1043a52a64eb",
+			"keysgraphics": true,
+			"linegraphics": "detailed",
+			"zoom": 1.1,
+			"background": "transparent",
+			"lineColor": "transparent",
+			"isOpen": true,
+			"main": true,
+			"diagramItems": {
+				"13f66287-dfae-405d-abac-7facfccabd6f": {
+					"referencedItemId": "13f66287-dfae-405d-abac-7facfccabd6f",
+					"x": 387,
+					"y": 173,
+					"gHeight": 81,
+					"gWidth": 173,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"1fedea49-aef2-4e81-b4ee-fad4f2adc8ca": {
+					"referencedItemId": "1fedea49-aef2-4e81-b4ee-fad4f2adc8ca",
+					"x": 670,
+					"y": 35,
+					"gHeight": 135,
+					"gWidth": 258,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"783e26e5-7fbe-4aee-a19a-666ef230f7b1": {
+					"referencedItemId": "783e26e5-7fbe-4aee-a19a-666ef230f7b1",
+					"x": 994,
+					"y": 175,
+					"gHeight": 99,
+					"gWidth": 257,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"0168f1e7-0590-4fb5-927a-4ca50cfb5027": {
+					"referencedItemId": "0168f1e7-0590-4fb5-927a-4ca50cfb5027",
+					"x": 357,
+					"y": 30,
+					"gHeight": 81,
+					"gWidth": 199,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				},
+				"3f6efafa-214b-4c67-b2ee-49cf1810e2c7": {
+					"referencedItemId": "3f6efafa-214b-4c67-b2ee-49cf1810e2c7",
+					"x": 633,
+					"y": 202,
+					"gHeight": 99,
+					"gWidth": 259,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10"
+				}
+			},
+			"scroll": {
+				"x": 0,
+				"y": 0
+			},
+			"type": "erd",
+			"showHorizontal": true,
+			"showDescriptions": true,
+			"showIndicators": true,
+			"showProgress": true,
+			"lineWidth": "2",
+			"boxSize": "0",
+			"showIndicatorCaptions": true,
+			"showEstimatedSize": false,
+			"showSchemaContainer": true,
+			"showEmbeddedInParents": true,
+			"showCardinalityCaptions": true,
+			"showColumns": true,
+			"showColumnDataTypes": true,
+			"showSampleData": false,
+			"showTableIndexes": true,
+			"showTableDescriptions": false,
+			"showRelations": true,
+			"backgroundImage": "na",
+			"descriptionsColor": "transparent"
+		}
+	},
+	"order": [
+		"783e26e5-7fbe-4aee-a19a-666ef230f7b1",
+		"13f66287-dfae-405d-abac-7facfccabd6f",
+		"1fedea49-aef2-4e81-b4ee-fad4f2adc8ca",
+		"0168f1e7-0590-4fb5-927a-4ca50cfb5027",
+		"3f6efafa-214b-4c67-b2ee-49cf1810e2c7",
+		"336a7e66-0090-4623-930d-9ea89ed2c52a",
+		"08c7b4fd-130e-4d97-8e4d-437e2332e2ae",
+		"d82eabfb-1c82-40da-8000-b1ca24892be4",
+		"302bc18c-fca0-488e-a38a-9ad6c5667b49",
+		"73c423fb-bdf2-4bad-a784-8916951b0597"
+	],
+	"collapsedTreeItems": [],
+	"reverseStats": {}
+}
