@@ -17,6 +17,17 @@ services:
     networks:
       - questify-network
 
+  questify-conversation-service-mongodb:
+    image: mongo:latest 
+    container_name: questify-conversation-service-mongodb
+    ports:
+      - "${MONGO_PORT}:27017" 
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - questify-network
+      
 volumes:
   node_modules:
 
