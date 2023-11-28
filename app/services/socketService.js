@@ -16,7 +16,7 @@ class SocketService {
     this.io.on('connection', (socket) => {  
       this.validateAndDisconnectIfInvalidToken(socket);
       this.io.emit('onlineChatUsersIds', Object.keys(this.userSocketMap));
-      
+
       this.setupMessageEvents(socket);
       this.setupMessageViewerEvents(socket);
       this.setupChatUserEvents(socket);
@@ -94,7 +94,7 @@ class SocketService {
           name: new RegExp(data.name, "i")
         });
   
-        socket.emit('findChatUsers', chatUsersWithOnlineStatus);
+        socket.emit('findChatUsers', chatUsers);
       } catch (error) {
         console.error('Error handling findChatUsers event:', error);
       }
