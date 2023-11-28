@@ -11,6 +11,8 @@ class SocketService {
       },
     });;
 
+    this.userSocketMap = {};
+
     this.io.on('connection', (socket) => {  
       this.validateAndDisconnectIfInvalidToken(socket);
 
@@ -20,16 +22,22 @@ class SocketService {
 
       socket.on('disconnect', () => {
         console.log(`A client disconnected`);
+
+        if ( socket.hasOwnProperty('chatUser') && this.userSocketMap.hasOwnProperty(socket.chatUser.id)) {
+          delete this.userSocketMap[socket.chatUser.id];
+        }        
+
       });
     });
   }
 
   async validateAndDisconnectIfInvalidToken(socket) {
-    const userToken = socket.handshake.auth.userToken;
+    const userToken = socket.handshake.auth.authToken;
     try {
         const decodeduserToken = await authService.validateToken(userToken);
         const chatUser = await authService.findOrCreateUser(decodeduserToken);
-        socket.chatUser = chatUser,
+        socket.chatUser = chatUser;
+        this.userSocketMap[chatUser.id] = socket.id;
         console.log('A client connected with a valid token');
     } catch (error) {
         console.log('Invalid token, disconnecting client');
@@ -56,8 +64,11 @@ class SocketService {
           });
     
           const savedMessage = await newMessage.save();
-    
-          this.io.emit('message', savedMessage);
+
+          if (data.recipientObjectId && data.recipientObjectId !== socket.chatUser.id && data.recipientContentType === 'ChatUser') {
+            this.io.to(this.userSocketMap[data.recipientObjectId]).emit('message', savedMessage);
+          }
+          socket.emit('message', savedMessage);
         } catch (error) {
           console.error('Error handling message event:', error.message);
         }
