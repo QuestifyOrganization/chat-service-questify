@@ -1,9 +1,13 @@
 const express = require('express');
 const http = require('http');
 const { createMainRouter } = require('./routes/mainRouter');
+const cors = require('cors');
 const SocketService = require('./services/socketService');
 
 const app = express();
+app.use(express.json()); 
+app.use(cors());
+
 const server = http.createServer(app);
 
 const port = process.env.PORT || 3000;
