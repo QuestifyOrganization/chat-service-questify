@@ -15,14 +15,14 @@ class SocketService {
 
     this.io.on('connection', (socket) => {  
       this.validateAndDisconnectIfInvalidToken(socket);
-
-      this.setupChatGroupMembershipEvents(socket);
+      this.io.emit('onlineChatUsersIds', Object.keys(this.userSocketMap));
+      
       this.setupMessageEvents(socket);
       this.setupMessageViewerEvents(socket);
       this.setupChatUserEvents(socket);
       socket.on('disconnect', () => {
         console.log(`A client disconnected`);
-
+        this.io.emit('onlineChatUsersIds', Object.keys(this.userSocketMap));
         if ( socket.hasOwnProperty('chatUser') && this.userSocketMap.hasOwnProperty(socket.chatUser.id)) {
           delete this.userSocketMap[socket.chatUser.id];
         }        
@@ -44,12 +44,6 @@ class SocketService {
         console.log('Invalid token, disconnecting client');
         socket.disconnect();
     }
-  }
-
-  setupChatGroupMembershipEvents(socket) {
-    socket.on('chatGroupMembershipEvent', (data) => {
-      console.log('Received chatGroupMembership event:', data);
-    });
   }
 
   setupMessageEvents(socket) {
@@ -100,18 +94,59 @@ class SocketService {
           name: new RegExp(data.name, "i")
         });
   
-        const chatUsersWithOnlineStatus = chatUsers.map(user => {
-          const isOnline = this.userSocketMap[user._id] ? true : false;
-          return { ...user.toObject(), isOnline };
-        });
-  
         socket.emit('findChatUsers', chatUsersWithOnlineStatus);
       } catch (error) {
         console.error('Error handling findChatUsers event:', error);
       }
     });
+
+    socket.on('findTalkedChatUsers', async () => {
+      try {
+        const chatUserId = socket.chatUser.id;
+    
+        const foundMessages = await MessageModel.find({
+          $or: [
+            { senderId: chatUserId, recipientContentType: 'ChatUser' },
+            { recipientObjectId: chatUserId, recipientContentType: 'ChatUser' }
+          ]
+        }).sort({ sendDate: -1 });
+    
+        const uniqueRecipients = new Map();
+    
+        foundMessages.forEach(message => {
+          const isSender = message.senderId.toString() === chatUserId.toString();
+          const objectId = isSender ? message.recipientObjectId : message.senderId;
+    
+          if (!uniqueRecipients.has(objectId.toString())) {
+            uniqueRecipients.set(objectId.toString(), message.sendDate);
+          }
+        });
+    
+        const sortedUniqueRecipients = Array.from(uniqueRecipients)
+          .sort((a, b) => b[1] - a[1]) // Ordena pelo sendDate
+          .map(item => item[0]); // Retorna apenas os IDs
+    
+        const chatUsers = [];
+        for (const id of sortedUniqueRecipients) {
+          const user = await ChatUserModel.findById(id);
+          if (user) chatUsers.push(user);
+        }
+    
+        socket.emit('findTalkedChatUsers', chatUsers);
+      } catch (error) {
+        console.error('Error handling findTalkedChatUsers event:', error);
+      }
+    });   
+    
+    socket.on('currentUserIsOnline', async (chatUserId) => {
+      try {    
+        const currentUserIsOnline = this.userSocketMap[chatUserId] ? true: false
+        socket.emit('currentUserIsOnline', currentUserIsOnline);
+      } catch (error) {
+        console.error('Error handling currentUserIsOnline event:', error);
+      }
+    });
   }
-  
   
   setupMessageViewerEvents(socket) {
     socket.on('messageViewerEvent', (data) => {
