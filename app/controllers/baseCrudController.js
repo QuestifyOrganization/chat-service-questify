@@ -1,14 +1,14 @@
-class baseCrudController {
-  constructor(Model) {
-    if (!Model) {
+class BaseCrudController {
+  constructor(model) {
+    if (!model) {
       throw new Error('Model is required for BaseCrudController');
     }
-    this.Model = Model;
+    this.model = model;
   }
 
   async getAllRecords(req, res) {
       try {
-        const records = await this.Model.findAll();
+        const records = await this.model.findAll();
         return res.status(200).json(records);
       } catch (error) {
         console.error('Error fetching records:', error);
@@ -19,7 +19,7 @@ class baseCrudController {
   async getRecordById(req, res, recordData = null) {
     const { id } = recordData || req.params;
     try {
-      const record = await this.Model.findByPk(id);
+      const record = await this.model.findByPk(id);
       if (!record) {
         return res.status(404).json({ error: 'Record not found' });
       } else {
@@ -33,7 +33,7 @@ class baseCrudController {
   
   async createRecord(req, res, recordData = null) {
     try {
-      const newRecord = await this.Model.create(recordData || req.body);
+      const newRecord = await this.model.create(recordData || req.body);
       return res.status(201).json(newRecord);
     } catch (error) {
       console.error('Error creating record:', error);
@@ -59,7 +59,7 @@ class baseCrudController {
   async deleteRecord(req, res, recordData = null) {
     const { id } = recordData || req.params;
     try {
-      const deletedRowCount = await this.Model.destroy({ where: { id } });
+      const deletedRowCount = await this.model.destroy({ where: { id } });
       if (deletedRowCount === 0) {
         return res.status(404).json({ error: 'Record not found' });
       } else {
@@ -73,5 +73,5 @@ class baseCrudController {
 
 }
   
-  module.exports = baseCrudController;
+  module.exports = BaseCrudController;
   

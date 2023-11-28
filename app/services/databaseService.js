@@ -1,8 +1,7 @@
-const mongoose = require('mongoose')
-const dabaseConfig = require('../config/databaseConfig');
-const databaseConfig = require('../config/databaseConfig');
+const mongoose = require('mongoose');
+const { username, password, host, port } = require('../config/databaseConfig');
 
-const mongoURL = `mongodb://${dabaseConfig.username}:${dabaseConfig.password}@${dabaseConfig.host}:${databaseConfig.port}/`;
+const mongoURL = `mongodb://${username}:${password}@${host}:${port}/`;
 
 mongoose.connect(mongoURL, {
     useNewUrlParser: true,
@@ -11,7 +10,7 @@ mongoose.connect(mongoURL, {
     .then(() => {
         console.log('Successful connection to MongoDB');
     })
-    .catch(err => {
+    .catch((err) => {
         console.error('Error connecting to MongoDB:', err.message);
     });
 

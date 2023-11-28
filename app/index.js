@@ -1,14 +1,17 @@
 const express = require('express');
+const http = require('http');
+const { createMainRouter } = require('./routes/mainRouter');
+const SocketService = require('./services/socketService');
+
 const app = express();
+const server = http.createServer(app);
 
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || '0.0.0.0';
 
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Bem-vindo ao seu servidor Express' });
-});
+const socketService = new SocketService(server);
 
-app.listen(port, host, (err) => {
+server.listen(port, host, (err) => {
   if (err) {
     console.error(err);
     process.exit(1);
