@@ -23,4 +23,17 @@ server.listen(port, host, (err) => {
     process.exit(1);
   }
   console.log(`Server is now listening on http://${host}:${port}`);
+  const mongoose = require('mongoose');
+  const mongoUrl = process.env.MONGO_URL;
+  
+  mongoose.connect(mongoUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+  })
+      .then(() => {
+          console.log('Successful connection to MongoDB');
+      })
+      .catch((err) => {
+          console.error('Error connecting to MongoDB:', err.message);
+      });
 });

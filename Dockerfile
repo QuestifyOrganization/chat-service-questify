@@ -4,7 +4,7 @@ WORKDIR /usr/app
 
 COPY ./app ./
 
-RUN npm cache clean --force && npm install --force-rm
+RUN npm install
 
 CMD ["npm", "run", "start:dev"]
 

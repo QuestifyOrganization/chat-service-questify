@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
-const { username, password, host, port } = require('../config/databaseConfig');
+const mongoUrl = process.env.MONGO_URL;
 
-const mongoURL = `${process.env.MONGO_URL}` || `mongodb://${username}:${password}@${host}:${port}/`;
-
-mongoose.connect(mongoURL, {
+mongoose.connect(mongoUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
