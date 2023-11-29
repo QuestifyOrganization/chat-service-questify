@@ -207,6 +207,25 @@
 					"estimatedSize": ""
 				},
 				{
+					"id": "f59164f5-4d0e-4b2e-b1e0-00e1e433f610",
+					"name": "senderName",
+					"datatype": "varchar",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"collation": null,
+					"pg": {
+						"generatedIdentity": "no",
+						"generated": ""
+					},
+					"estimatedSize": ""
+				},
+				{
 					"id": "afdfa1fb-5e1e-424c-8646-90fe5667fba7",
 					"name": "senderId",
 					"datatype": "integer",
@@ -831,7 +850,7 @@
 			"indexes": true,
 			"relations": true
 		},
-		"lastSaved": "10/25/2023"
+		"lastSaved": "11/16/2023"
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -863,7 +882,7 @@
 					"referencedItemId": "1fedea49-aef2-4e81-b4ee-fad4f2adc8ca",
 					"x": 670,
 					"y": 35,
-					"gHeight": 135,
+					"gHeight": 153,
 					"gWidth": 258,
 					"color": "#ffffff",
 					"background": "#03a9f4",
