@@ -20,14 +20,7 @@ class SocketService {
       this.setupMessageEvents(socket);
       this.setupMessageViewerEvents(socket);
       this.setupChatUserEvents(socket);
-      socket.on('disconnect', () => {
-        console.log(`A client disconnected`);
-        this.io.emit('onlineChatUsersIds', Object.keys(this.userSocketMap));
-        if ( socket.hasOwnProperty('chatUser') && this.userSocketMap.hasOwnProperty(socket.chatUser.id)) {
-          delete this.userSocketMap[socket.chatUser.id];
-        }        
-
-      });
+      this.setupDisconectEvents(socket);
     });
   }
 
@@ -44,6 +37,17 @@ class SocketService {
         console.log('Invalid token, disconnecting client');
         socket.disconnect();
     }
+  }
+
+  setupDisconectEvents(socket){
+    socket.on('disconnect', () => {
+      console.log(`A client disconnected`);
+      this.io.emit('onlineChatUsersIds', Object.keys(this.userSocketMap));
+      if ( socket.hasOwnProperty('chatUser') && this.userSocketMap.hasOwnProperty(socket.chatUser.id)) {
+        delete this.userSocketMap[socket.chatUser.id];
+      }        
+
+    });
   }
 
   setupMessageEvents(socket) {
