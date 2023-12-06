@@ -12,7 +12,6 @@ const messageSchema = new Schema({
   senderName: {
     type: String,
     required: true,
-    unique: true,
   },
   recipientContentType: {
     type: String,

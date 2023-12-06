@@ -52,25 +52,25 @@ class SocketService {
 
   setupMessageEvents(socket) {
     socket.on('message', async (data) => {
-        try {    
-          const newMessage = new MessageModel({
-            messageText: data.messageText,
-            senderId: socket.chatUser.id, 
-            senderName: socket.chatUser.name, 
-            recipientContentType: data.recipientContentType,
-            recipientObjectId: data.recipientObjectId,
-          });
-    
-          const savedMessage = await newMessage.save();
+      try {    
+        const newMessage = new MessageModel({
+          messageText: data.messageText,
+          senderId: socket.chatUser.id, 
+          senderName: socket.chatUser.name, 
+          recipientContentType: data.recipientContentType,
+          recipientObjectId: data.recipientObjectId,
+        });
+  
+        const savedMessage = await newMessage.save();
 
-          if (data.recipientObjectId && data.recipientObjectId !== socket.chatUser.id && data.recipientContentType === 'ChatUser') {
-            this.io.to(this.userSocketMap[data.recipientObjectId]).emit('message', savedMessage);
-          }
-          socket.emit('message', savedMessage);
-        } catch (error) {
-          console.error('Error handling message event:', error.message);
+        if (data.recipientObjectId && data.recipientObjectId !== socket.chatUser.id && data.recipientContentType === 'ChatUser') {
+          this.io.to(this.userSocketMap[data.recipientObjectId]).emit('message', savedMessage);
         }
-      });
+        socket.emit('message', savedMessage);
+      } catch (error) {
+        console.error('Error handling message event:', error.message);
+      }
+    });
 
       socket.on('findMessages', async (targetUser) => {
         try {    
