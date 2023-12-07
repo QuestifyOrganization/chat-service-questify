@@ -2,6 +2,7 @@ const { Server } = require('socket.io');
 const MessageModel = require('../models/messageModel');
 const ChatUserModel = require('../models/chatUserModel');
 const authService = require('./authService');
+const ChatGroupModel = require('../models/chatGroupModel');
 
 class SocketService {
   constructor(server) {
@@ -63,27 +64,37 @@ class SocketService {
   
         const savedMessage = await newMessage.save();
 
-        if (data.recipientObjectId && data.recipientObjectId !== socket.chatUser.id && data.recipientContentType === 'ChatUser') {
+        if ( data.recipientContentType === 'ChatGroup' ) {
+          this.io.emit('message', savedMessage);
+        } else if (data.recipientObjectId && data.recipientObjectId !== socket.chatUser.id && data.recipientContentType === 'ChatUser') {
           this.io.to(this.userSocketMap[data.recipientObjectId]).emit('message', savedMessage);
+          socket.emit('message', savedMessage);
         }
-        socket.emit('message', savedMessage);
+
       } catch (error) {
         console.error('Error handling message event:', error.message);
       }
     });
 
-      socket.on('findMessages', async (targetUser) => {
+      socket.on('findMessages', async (chatEntity) => {
         try {    
 
           const chatUserId = socket.chatUser.id;
 
-          const foundMessages = await MessageModel.find({
-            $or: [
-              { senderId: chatUserId,  recipientContentType: targetUser.recipientContentType, recipientObjectId: targetUser.recipientObjectId},
-              { senderId: targetUser.recipientObjectId, recipientContentType: 'ChatUser', recipientObjectId: chatUserId}
-            ]
-          });
+          let query;
 
+          if (chatEntity.contentType === 'ChatGroup') {
+            query = { recipientContentType: chatEntity.contentType, recipientObjectId: chatEntity._id};
+          } else {
+            query = {
+              $or: [
+                { senderId: chatUserId,  recipientContentType: chatEntity.recipientContentType, recipientObjectId: chatEntity.recipientObjectId},
+                { senderId: chatEntity._id, recipientContentType: 'ChatUser', recipientObjectId: chatUserId}
+              ]
+            };
+          }
+
+          const foundMessages = await MessageModel.find(query);
           socket.emit('findMessages', foundMessages);
         } catch (error) {
           console.error('Error handling message event:', error.message);
@@ -92,15 +103,31 @@ class SocketService {
   }
 
   setupChatUserEvents(socket) {
-    socket.on('findChatUsers', async (data) => {
+    socket.on('findChatEntities', async (data) => {
       try {    
         const chatUsers = await ChatUserModel.find({
           name: new RegExp(data.name, "i")
         });
-  
-        socket.emit('findChatUsers', chatUsers);
+      
+        const ChatGroups = await ChatGroupModel.find({
+          name: new RegExp(data.name, "i")
+        });
+      
+        const chatUsersWithContentType = chatUsers.map(user => ({
+          ...user.toObject(), 
+          contentType: "ChatUser"
+        }));
+      
+        const chatGroupsWithContentType = ChatGroups.map(group => ({
+          ...group.toObject(), 
+          contentType: "ChatGroup"
+        }));
+      
+        const chatEntities = [...chatUsersWithContentType, ...chatGroupsWithContentType];
+
+        socket.emit('findChatEntities', chatEntities);
       } catch (error) {
-        console.error('Error handling findChatUsers event:', error);
+        console.error('Error handling findChatEntities event:', error);
       }
     });
 
@@ -108,39 +135,65 @@ class SocketService {
       try {
         const chatUserId = socket.chatUser.id;
     
+        // Busca mensagens que envolvam o usuário, seja como remetente ou destinatário, e mensagens de grupos
         const foundMessages = await MessageModel.find({
           $or: [
-            { senderId: chatUserId, recipientContentType: 'ChatUser' },
-            { recipientObjectId: chatUserId, recipientContentType: 'ChatUser' }
+            { senderId: chatUserId },
+            { recipientObjectId: chatUserId, recipientContentType: 'ChatUser' },
+            { recipientContentType: 'ChatGroup' }
           ]
         }).sort({ sendDate: -1 });
     
-        const uniqueRecipients = new Map();
+        const uniqueEntities = new Map();
     
         foundMessages.forEach(message => {
-          const isSender = message.senderId.toString() === chatUserId.toString();
-          const objectId = isSender ? message.recipientObjectId : message.senderId;
+          let entityId, entityType;
     
-          if (!uniqueRecipients.has(objectId.toString())) {
-            uniqueRecipients.set(objectId.toString(), message.sendDate);
+          if (message.recipientContentType === 'ChatGroup') {
+            entityId = message.recipientObjectId;
+            entityType = 'Group';
+          } else {
+            const isSender = message.senderId.toString() === chatUserId.toString();
+            entityId = isSender ? message.recipientObjectId : message.senderId;
+            entityType = 'User';
+          }
+    
+          const uniqueKey = `${entityType}:${entityId.toString()}`;
+          if (!uniqueEntities.has(uniqueKey)) {
+            uniqueEntities.set(uniqueKey, { entityId, entityType, lastMessageDate: message.sendDate });
           }
         });
     
-        const sortedUniqueRecipients = Array.from(uniqueRecipients)
-          .sort((a, b) => b[1] - a[1]) // Ordena pelo sendDate
-          .map(item => item[0]); // Retorna apenas os IDs
+        const sortedUniqueEntities = Array.from(uniqueEntities.values())
+          .sort((a, b) => b.lastMessageDate - a.lastMessageDate);
     
-        const chatUsers = [];
-        for (const id of sortedUniqueRecipients) {
-          const user = await ChatUserModel.findById(id);
-          if (user) chatUsers.push(user);
+        const chatEntities = [];
+        for (const { entityId, entityType } of sortedUniqueEntities) {
+          let entity;
+          if (entityType === 'User') {
+            entity = await ChatUserModel.findById(entityId);
+            if (entity) {
+              entity = entity.toObject();
+              entity.contentType = 'ChatUser';
+            }
+          } else if (entityType === 'Group') {
+            entity = await ChatGroupModel.findById(entityId);
+            if (entity) {
+              entity = entity.toObject();
+              entity.contentType = 'ChatGroup';
+            }
+          }
+    
+          if (entity) {
+            chatEntities.push(entity);
+          }
         }
     
-        socket.emit('findTalkedChatUsers', chatUsers);
+        socket.emit('findTalkedChatUsers', chatEntities);
       } catch (error) {
         console.error('Error handling findTalkedChatUsers event:', error);
       }
-    });   
+    });
     
     socket.on('currentUserIsOnline', async (chatUserId) => {
       try {    
