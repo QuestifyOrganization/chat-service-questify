@@ -52,22 +52,22 @@ class SocketService {
   }
 
   setupMessageEvents(socket) {
-    socket.on('message', async (data) => {
+    socket.on('message', async (message) => {
       try {    
         const newMessage = new MessageModel({
-          messageText: data.messageText,
+          messageText: message.messageText,
           senderId: socket.chatUser.id, 
           senderName: socket.chatUser.name, 
-          recipientContentType: data.recipientContentType,
-          recipientObjectId: data.recipientObjectId,
+          recipientContentType: message.recipientContentType,
+          recipientObjectId: message.recipientObjectId,
         });
   
         const savedMessage = await newMessage.save();
 
-        if ( data.recipientContentType === 'ChatGroup' ) {
+        if (message.recipientContentType === 'ChatGroup') {
           this.io.emit('message', savedMessage);
-        } else if (data.recipientObjectId && data.recipientObjectId !== socket.chatUser.id && data.recipientContentType === 'ChatUser') {
-          this.io.to(this.userSocketMap[data.recipientObjectId]).emit('message', savedMessage);
+        } else {
+          this.io.to(this.userSocketMap[message.recipientObjectId]).emit('message', savedMessage);
           socket.emit('message', savedMessage);
         }
 
@@ -76,30 +76,32 @@ class SocketService {
       }
     });
 
-      socket.on('findMessages', async (chatEntity) => {
-        try {    
+    socket.on('findMessages', async (chatEntity) => {
+      try {    
 
-          const chatUserId = socket.chatUser.id;
+        const chatUserId = socket.chatUser.id;
 
-          let query;
+        let query;
 
-          if (chatEntity.contentType === 'ChatGroup') {
-            query = { recipientContentType: chatEntity.contentType, recipientObjectId: chatEntity._id};
-          } else {
-            query = {
-              $or: [
-                { senderId: chatUserId,  recipientContentType: chatEntity.recipientContentType, recipientObjectId: chatEntity.recipientObjectId},
-                { senderId: chatEntity._id, recipientContentType: 'ChatUser', recipientObjectId: chatUserId}
-              ]
-            };
-          }
-
-          const foundMessages = await MessageModel.find(query);
-          socket.emit('findMessages', foundMessages);
-        } catch (error) {
-          console.error('Error handling message event:', error.message);
+        if (chatEntity.contentType === 'ChatGroup') {
+          query = { recipientContentType: chatEntity.contentType, recipientObjectId: chatEntity._id};
+        } else if (chatEntity.contentType === 'ChatUser') {
+          query = {
+            $or: [
+              { senderId: chatUserId,  recipientContentType: chatEntity.contentType, recipientObjectId: chatEntity._id},
+              { senderId: chatEntity._id, recipientContentType: 'ChatUser', recipientObjectId: chatUserId}
+            ]
+          };
+        } else {
+          query = {}
         }
-      });
+
+        const foundMessages = await MessageModel.find(query);
+        socket.emit('findMessages', foundMessages);
+      } catch (error) {
+        console.error('Error handling message event:', error.message);
+      }
+    });
   }
 
   setupChatUserEvents(socket) {
