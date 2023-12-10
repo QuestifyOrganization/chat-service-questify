@@ -2,7 +2,11 @@ const mongoose = require('../services/databaseService');
 const Schema = mongoose.Schema;
 
 const chatGroupSchema = new Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   description: String,
   createdAt: { type: Date, default: Date.now },
   createdBy: {

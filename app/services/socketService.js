@@ -22,6 +22,7 @@ class SocketService {
       this.setupMessageViewerEvents(socket);
       this.setupChatUserEvents(socket);
       this.setupDisconectEvents(socket);
+      this.setupChatGroupEvents(socket);
     });
   }
 
@@ -207,6 +208,36 @@ class SocketService {
     });
   }
   
+  setupChatGroupEvents(socket) {
+    socket.on('createChatGroup', async (data) => {
+      try {
+        const chatUserId = socket.chatUser.id;
+    
+        const existingGroup = await ChatGroupModel.findOne({ name: data.name });
+        if (existingGroup) {
+          throw new Error('A Group with this name already exists');
+        }
+    
+        const existingUser = await ChatUserModel.findOne({ name: data.name });
+        if (existingUser) {
+          throw new Error('A User with this name already exists');
+        }
+    
+        const newGroup = new ChatGroupModel({
+          name: data.name,
+          description: data.description,
+          createdBy: chatUserId
+        });
+    
+        const savedGroup = await newGroup.save();
+        socket.emit('chatGroupCreated', savedGroup);
+      } catch (error) {
+        socket.emit('errorCreatingChatGroup', error.message);
+      }
+    });
+    
+  }
+
   setupMessageViewerEvents(socket) {
     socket.on('messageViewerEvent', (data) => {
       console.log('Received messageViewer event:', data);
