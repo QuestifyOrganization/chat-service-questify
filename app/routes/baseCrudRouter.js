@@ -11,14 +11,27 @@ class BaseCrudRouter {
         this.router = express.Router();
         this.setupRoutes();
     }
-
     setupRoutes() {
-        this.router.get(`/list`, this.controller.getAllRecords);
-        this.router.get(`/:id`, this.controller.getRecordById);
-        this.router.post(`/create`, this.controller.createRecord);
-        this.router.put(`/update/:id`, this.controller.updateRecord);
-        this.router.delete(`/delete/:id`, this.controller.deleteRecord);
-    }
+        this.router.get(`/list`, (req, res) => {
+            this.controller.getAllRecords(req, res);
+        });
+    
+        this.router.get(`/:id`, (req, res) => {
+            this.controller.getRecordById(req, res);
+        });
+    
+        this.router.post(`/create`, (req, res) => {
+            this.controller.createRecord(req, res);
+        });
+    
+        this.router.put(`/update/:id`, (req, res) => {
+            this.controller.updateRecord(req, res);
+        });
+    
+        this.router.delete(`/delete/:id`, (req, res) => {
+            this.controller.deleteRecord(req, res);
+        });
+    }    
 
     getRouter() {
         return this.router;

@@ -10,6 +10,9 @@ app.use(cors({
   origin: '*'
 }));
 
+const mainRouter = createMainRouter(app);
+app.use('/api', mainRouter);
+
 const server = http.createServer(app);
 
 const port = process.env.PORT || 3000;

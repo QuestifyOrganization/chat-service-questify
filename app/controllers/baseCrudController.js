@@ -33,8 +33,10 @@ class BaseCrudController {
   
   async createRecord(req, res, recordData = null) {
     try {
-      const newRecord = await this.model.create(recordData || req.body);
-      return res.status(201).json(newRecord);
+      const newRecord = new this.model(recordData || req.body);
+      const savedRecord = await newRecord.save();
+
+      return res.status(201).json(savedRecord);
     } catch (error) {
       console.error('Error creating record:', error);
       return res.status(500).json({ error: 'Internal server error' });
